@@ -1,15 +1,15 @@
-const schedule = require('node-schedule');
+const { response } = require("express");
 const task = require("./Task");
 const cron = require("node-cron");
 module.exports = {
     schedule:async (data=null)=>{
         try {
-            const taskResposse = task.taskData(); 
-            for(let val of taskResposse){
-                const second = val.duration;
-                console.log(`task ${val.taskId} started`);
-                cron.schedule(`*/${second} * * * * *`, function () {
-                    console.log(`task ${val.taskId} completed`);
+            const taskResponse = task.taskData(); 
+            for(let val of taskResponse){
+                const {taskId, duration} = val;
+                console.log(`task ${taskId} started`);
+                cron.schedule(`*/${duration} * * * * *`, function () {
+                        console.log(`task ${taskId} completed`);
                 });
             }      
         } catch (error) {
